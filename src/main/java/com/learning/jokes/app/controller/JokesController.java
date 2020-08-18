@@ -1,6 +1,6 @@
 package com.learning.jokes.app.controller;
 
-import guru.springframework.norris.chuck.ChuckNorrisQuotes;
+import com.learning.jokes.app.service.JokeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class JokesController {
 
-    private ChuckNorrisQuotes quotes;
+    private final JokeService jokeService;
 
-    public JokesController() {
-        quotes = new ChuckNorrisQuotes();
+    public JokesController(JokeService jokeService) {
+        this.jokeService = jokeService;
     }
 
     @GetMapping({"/", ""})
     public String getJokes(Model model) {
-        String randomQuote = quotes.getRandomQuote();
+        String randomQuote = jokeService.getJoke();
         System.out.println("Random quote : " + randomQuote);
         model.addAttribute("joke", randomQuote);
         return "joke/chucknorris";
